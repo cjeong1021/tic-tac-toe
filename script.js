@@ -64,8 +64,14 @@ function checkWin(array) {
         (array[2] === array[4] && array[4] === array[6])) {
             if (playerOneTurn) {
                 alert("Player Two Wins")
+                grid.forEach((box) => {
+                    box.removeEventListener('click', colorChange);
+                })
             } else {
                 alert("player One Wins")
+                grid.forEach((box) => {
+                    box.removeEventListener('click', colorChange);
+                })
             }
         } else if (turn === 9) {
             alert('Tie');
