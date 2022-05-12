@@ -1,18 +1,20 @@
 let grid = document.querySelectorAll('.box');
-let firstTurn = true;
+let restartButton = document.querySelector('button');
+let turn = 1;
 
-grid.forEach((box) =>{    
+grid.forEach((box) =>{   
+    let boxClick = false;
     box.addEventListener('click', () => {
-        console.log('clicked');
-        console.log(box.classList);
-        if (firstTurn === true){
-            box.classList.add('blue');
-            box.classList.remove('red');
-            firstTurn = false;
-        } else if (firstTurn === false){
+        if (turn % 2 === 0 && boxClick === false){
             box.classList.add('red');
             box.classList.remove('blue');
-            firstTurn = true;
+            turn++;
+            boxClick = true;
+        } else if (turn % 2 !== 0 && boxClick === false){
+            box.classList.add('blue');
+            box.classList.remove('red');
+            turn++;
+            boxClick = true;
         } else {
         }
     })
