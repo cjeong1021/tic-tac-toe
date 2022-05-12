@@ -1,51 +1,73 @@
 let grid = document.querySelectorAll('.box');
 let restartButton = document.querySelector('button');
 let playerTurn = document.querySelector('h3');
-let turn = 1;
+let playerOneTurn = true;
+let turn = 0;
 let boardArray = [
-    '','','',
-    '','','',
-    '','',''
+    '0','1','2',
+    '3','4','5',
+    '6','7','8'
 ]
 
 
 restartButton.addEventListener('click', () => {
     grid.forEach((box) =>{
-        box.classList.remove('blue', 'red');
-        turn = 1;
+        box.style.backgroundColor = 'black';
+        playerOneTurn = true;
         playerTurn.innerText = "Turn: Player 1";
         boardArray = [
-            '','','',
-            '','','',
-            '','',''
+            '0','1','2',
+            '3','4','5',
+            '6','7','8'
         ]
-        startGame();
-        
+        turn = 0;
+        gameStart()
     })
 })
 
-startGame();
+gameStart()
 
-function startGame () {grid.forEach((box) =>{
-    box.addEventListener('click', function colorChange() {
-        if (turn % 2 === 0){
-            box.classList.add('red');
-            box.classList.remove('blue');
-            turn++;
-            box.removeEventListener('click', colorChange);
-            playerTurn.innerText = "Turn: Player 1";
-            boardArray[this.id] = 'o';
+function gameStart() {
+    grid.forEach((box) => {
+    box.addEventListener('click', colorChange)
+})}
 
-        } else if (turn % 2 !== 0){
-            box.classList.add('blue');
-            box.classList.remove('red');
-            turn++;
-            box.removeEventListener('click', colorChange);
-            playerTurn.innerText = "Turn: Player 2";
-            boardArray[this.id] = 'x';
+function colorChange(e) {
+    if (playerOneTurn){
+        e.target.style.backgroundColor = 'red';
+        playerOneTurn = false;
+        playerTurn.innerText = "Turn: Player 2";
+        boardArray[e.target.id] = 'o';
+        console.log(boardArray);
+        turn++;
+        checkWin(boardArray);
+    } else {
+        e.target.style.backgroundColor = 'blue';
+        playerOneTurn = true;
+        playerTurn.innerText = "Turn: Player 1";
+        boardArray[e.target.id] = 'x';
+        console.log(boardArray);
+        turn++;
+        checkWin(boardArray);
+    }
+    e.target.removeEventListener('click', colorChange);
+}
 
-        } else {
-        }
-    })
-})
+function checkWin(array) {
+    if ((array[0] === array[1] && array[1] === array[2]) ||
+        (array[3] === array[4] && array[4] === array[5]) ||
+        (array[6] === array[7] && array[7] === array[8]) ||
+        (array[0] === array[3] && array[3] === array[6]) ||
+        (array[1] === array[4] && array[4] === array[7]) ||
+        (array[2] === array[5] && array[5] === array[8]) ||
+        (array[0] === array[4] && array[4] === array[8]) ||
+        (array[2] === array[4] && array[4] === array[6])) {
+            if (playerOneTurn) {
+                alert("Player Two Wins")
+            } else {
+                alert("player One Wins")
+            }
+        } else if (turn === 9) {
+            alert('Tie');
+    }
 }
